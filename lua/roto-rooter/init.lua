@@ -26,9 +26,20 @@ local function create_autocmd(cmd, patterns, fallback)
 				return
 			end
 			local buftype = vim.bo.buftype
-			local filetype = vim.bo.filetype
+			local bufname = vim.api.nvim_buf_get_name(0)
+			-- local filetype = vim.bo.filetype
+			-- Must be a normal buffer (no special buftype)
+			if buftype ~= "" then
+				return
+			end
 
-			if buftype ~= "" or filetype == "oil" or filetype == "netrw" then
+			-- Must have a real file path (starts with /)
+			if bufname == "" or not bufname:match("^/") then
+				return
+			end
+
+			-- Must be a readable file
+			if vim.fn.filereadable(bufname) == 0 then
 				return
 			end
 			local current_dir = vim.fn.getcwd()
