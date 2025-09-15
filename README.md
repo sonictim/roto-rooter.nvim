@@ -7,10 +7,10 @@ Automatic project root detection for Neovim
 ## ✨ Features
 
 - 🎯 **Smart root detection** - Finds project roots using configurable patterns (`.git`, `package.json`, `Cargo.toml`, etc.)
-- 🪟 **Window-local by default** - Each window can have its own working directory
+- 💻 **Window-local by default** - Each window can have its own working directory
 - ⚡ **Zero configuration** - Works out of the box with sensible defaults
-- 🛠️ **Highly configurable** - Customize patterns, behavior, and fallbacks
-- 🎛️ **Easy toggle** - Enable/disable on the fly with simple commands
+- ⚙️ **Highly configurable** - Customize patterns, behavior, and fallbacks
+- 🔀 **Easy toggle** - Enable/disable on the fly with simple commands
 - 📁 **Fallback options** - Choose what happens when no project root is found
 
 ## 📦 Installation
@@ -73,7 +73,7 @@ roto-rooter.nvim looks for these patterns in order of priority:
 5. `Makefile` - Make-based project
 6. `pyproject.toml` - Python project
 
-## 🎛️ Commands
+## 🔀 Commands
 
 | Command | Description |
 |---------|-------------|
