@@ -46,7 +46,7 @@ local function get_project_root(patterns, fallback)
 end
 
 local function get_relative_dir()
-	local cwd = vim.fn.getcwd()
+	print("DEBUG: New function is running!")
 	local filepath = vim.fn.expand("%:p")
 
 	local default = vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
