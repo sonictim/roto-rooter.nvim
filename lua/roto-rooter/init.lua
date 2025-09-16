@@ -84,7 +84,7 @@ local function get_relative_dir()
 	if relative_path == "" or relative_path == "." then
 		return default
 	else
-		return relative_path
+		return default .. "/" .. relative_path
 	end
 end
 
