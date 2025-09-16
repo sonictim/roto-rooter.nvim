@@ -49,8 +49,22 @@ local function get_relative_dir()
 	local cwd = vim.fn.getcwd()
 	local filepath = vim.fn.expand("%:p")
 
+	local default = vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
 	if filepath == "" then
-		return ""
+		return default
+	end
+	local buftype = vim.bo.buftype
+	local bufname = vim.api.nvim_buf_get_name(0)
+	if buftype ~= "" then
+		return default
+	end
+	-- Must have a real file path (starts with /)
+	if bufname == "" or not bufname:match("^/") then
+		return default
+	end
+	-- Must be a readable file
+	if vim.fn.filereadable(bufname) == 0 then
+		return default
 	end
 
 	-- Get the directory of the current file
@@ -78,7 +92,7 @@ local function get_relative_dir()
 	end
 
 	if relative_path == "" or relative_path == "." then
-		return vim.fn.fnamemodify(cwd, ":t")
+		return default
 	else
 		return relative_path
 	end
