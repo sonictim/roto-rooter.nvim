@@ -77,8 +77,6 @@ local function get_relative_dir()
 		return cwd_from_home .. "/" .. relative_path
 	end
 
-	-- For paths that don't start with ~/, just return the relative path as-is
-	-- or the cwd basename if we're in the root
 	if relative_path == "" or relative_path == "." then
 		return vim.fn.fnamemodify(cwd, ":t")
 	else
