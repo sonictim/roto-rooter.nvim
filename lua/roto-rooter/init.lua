@@ -49,22 +49,8 @@ local function get_relative_dir()
 	local cwd = vim.fn.getcwd()
 	local filepath = vim.fn.expand("%:p")
 
-	local default = vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
 	if filepath == "" then
-		return default
-	end
-	local buftype = vim.bo.buftype
-	local bufname = vim.api.nvim_buf_get_name(0)
-	if buftype ~= "" then
-		return default
-	end
-	-- Must have a real file path (starts with /)
-	if bufname == "" or not bufname:match("^/") then
-		return default
-	end
-	-- Must be a readable file
-	if vim.fn.filereadable(bufname) == 0 then
-		return default
+		return ""
 	end
 
 	-- Get the directory of the current file
@@ -91,14 +77,12 @@ local function get_relative_dir()
 		return cwd_from_home .. "/" .. relative_path
 	end
 
-	-- For paths that don't start with ~/, we need to construct the full relative path
-	-- Get the basename of cwd and append the relative path
-	local cwd_basename = vim.fn.fnamemodify(cwd, ":t")
-
+	-- For paths that don't start with ~/, just return the relative path as-is
+	-- or the cwd basename if we're in the root
 	if relative_path == "" or relative_path == "." then
-		return cwd_basename
+		return vim.fn.fnamemodify(cwd, ":t")
 	else
-		return cwd_basename .. "/" .. relative_path
+		return relative_path
 	end
 end
 
@@ -128,14 +112,14 @@ function M.setup(opts)
 	-- Create the autocmd
 	create_autocmd(cmd, patterns, fallback)
 	-- Create user commands
-	vim.api.nvim_create_user_command("RRlcd", function()
+	vim.api.nvim_create_user_command("lcdRoot", function()
 		local root = get_project_root(patterns, fallback)
 		if root then
 			vim.cmd("lcd " .. vim.fn.fnameescape(root))
 		end
 		print(root .. " detected as project root directory")
 	end, {})
-	vim.api.nvim_create_user_command("RRcd", function()
+	vim.api.nvim_create_user_command("cdRoot", function()
 		local root = get_project_root(patterns, fallback)
 		if root then
 			vim.cmd("cd " .. vim.fn.fnameescape(root))
