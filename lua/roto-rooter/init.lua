@@ -73,22 +73,12 @@ local function get_relative_dir()
 	local relative_path = vim.fn.fnamemodify(filedir, ":~:.")
 	-- If the file is in the cwd, return just the basename of cwd
 	if relative_path == "." then
-		return vim.fn.fnamemodify(cwd, ":t")
+		return default
 	end
 
-	-- If relative_path starts with '~/', convert to absolute then back to relative from home
+	-- If relative_path starts with '~/', just remove ~/ and return
 	if string.sub(relative_path, 1, 2) == "~/" then
-		-- Convert cwd to relative from home
-		local cwd_from_home = vim.fn.fnamemodify(cwd, ":~")
-		if string.sub(cwd_from_home, 1, 2) == "~/" then
-			cwd_from_home = string.sub(cwd_from_home, 3)
-		else
-			cwd_from_home = vim.fn.fnamemodify(cwd, ":t")
-		end
-		-- Remove ~/ from relative_path
-		relative_path = string.sub(relative_path, 3)
-
-		return cwd_from_home .. "/" .. relative_path
+		return string.sub(relative_path, 3)
 	end
 
 	if relative_path == "" or relative_path == "." then
