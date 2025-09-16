@@ -114,14 +114,14 @@ function M.setup(opts)
 	-- Create the autocmd
 	create_autocmd(cmd, patterns, fallback)
 	-- Create user commands
-	vim.api.nvim_create_user_command("lcdRoot", function()
+	vim.api.nvim_create_user_command("RRlcd", function()
 		local root = get_project_root(patterns, fallback)
 		if root then
 			vim.cmd("lcd " .. vim.fn.fnameescape(root))
 		end
 		print(root .. " detected as project root directory")
 	end, {})
-	vim.api.nvim_create_user_command("cdRoot", function()
+	vim.api.nvim_create_user_command("RRcd", function()
 		local root = get_project_root(patterns, fallback)
 		if root then
 			vim.cmd("cd " .. vim.fn.fnameescape(root))
@@ -145,7 +145,7 @@ function M.setup(opts)
 	end, {})
 
 	-- Make function globally available
-	_G.get_relative_dir = get_relative_dir
+	_G.RRget_relative_dir = get_relative_dir
 end
 
 -- Export the relative dir function for external use
